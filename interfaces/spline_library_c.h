@@ -26,7 +26,7 @@ SL_Vector3 SL_getPositionDerivative(const SL_pSpline spline, double knot, SL_Vec
 
 double SL_getTotalArclength(const SL_pSpline spline);
 
-void SL_getAccumulateArclengths(const SL_pSpline spline, double *arclengths);
+void SL_getAccumulateArclengths(const SL_pSpline spline, int num_pts, double *knots, double *arclengths);
 
 double SL_arclengthToKnot(const SL_pSpline spline, double arclength);
 

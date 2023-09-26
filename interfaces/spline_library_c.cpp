@@ -1,7 +1,7 @@
 #include "spline_library_c.h"
 #include "spline.h"
 #include "vector.h"
-#include "splines/cubic_hermite_spline.h"
+#include "splines/natural_spline.h"
 #include "utils/arclength.h"
 
 #ifdef __cplusplus
@@ -18,9 +18,9 @@ SL_pSpline SL_createSpline(int num_pts, const SL_Vector3 *pts)
     splinePoints[i] = Vector3b({pts[i].x, pts[i].y, pts[i].z});
   }
 
-  CubicHermiteSpline<Vector3b, double> *spline = nullptr;
+  NaturalSpline<Vector3b, double> *spline = nullptr;
   try {
-    spline = new CubicHermiteSpline<Vector3b, double>(splinePoints, 0.5);
+    spline = new NaturalSpline<Vector3b, double>(splinePoints);
   } catch (std::bad_alloc& ba) {
     throw std::runtime_error("Failed to allocate memory for spline");
   }
@@ -30,19 +30,19 @@ SL_pSpline SL_createSpline(int num_pts, const SL_Vector3 *pts)
 
 void SL_destroySpline(SL_pSpline spline)
 {
-  delete static_cast<CubicHermiteSpline<Vector3b, double> *>(spline);
+  delete static_cast<NaturalSpline<Vector3b, double> *>(spline);
 }
 
 double SL_getMaxT(const SL_pSpline spline)
 {
-  auto real_spline = static_cast<CubicHermiteSpline<Vector3b, double> *>(spline);
+  auto real_spline = static_cast<NaturalSpline<Vector3b, double> *>(spline);
 
   return real_spline->getMaxT();
 }
 
 SL_Vector3 SL_getPosition(const SL_pSpline spline, double knot)
 {
-  auto real_spline = static_cast<CubicHermiteSpline<Vector3b, double> *>(spline);
+  auto real_spline = static_cast<NaturalSpline<Vector3b, double> *>(spline);
 
   Vector3b pos = real_spline->getPosition(knot);
 
@@ -53,7 +53,7 @@ SL_Vector3 SL_getPosition(const SL_pSpline spline, double knot)
 
 SL_Vector3 SL_getPositionDerivative(const SL_pSpline spline, double knot, SL_Vector3 *der1, SL_Vector3 *der2)
 {
-  auto real_spline = static_cast<CubicHermiteSpline<Vector3b, double> *>(spline);
+  auto real_spline = static_cast<NaturalSpline<Vector3b, double> *>(spline);
 
   auto ptc = real_spline->getCurvature(knot);
 
@@ -72,27 +72,24 @@ SL_Vector3 SL_getPositionDerivative(const SL_pSpline spline, double knot, SL_Vec
 
 double SL_getTotalArclength(const SL_pSpline spline)
 {
-  auto real_spline = static_cast<CubicHermiteSpline<Vector3b, double> *>(spline);
+  auto real_spline = static_cast<NaturalSpline<Vector3b, double> *>(spline);
 
   return real_spline->totalLength();
 }
 
-void SL_getAccumulateArclengths(const SL_pSpline spline, double *arclengths)
+void SL_getAccumulateArclengths(const SL_pSpline spline, int num_pts, double *knots, double *arclengths)
 {
-  auto real_spline = static_cast<CubicHermiteSpline<Vector3b, double> *>(spline);
+  auto real_spline = static_cast<NaturalSpline<Vector3b, double> *>(spline);
 
-  size_t segs = real_spline->segmentCount();
-
-  for (size_t i = 0; i < segs; i++)
+  for (size_t i = 0; i < num_pts; i++)
   {
-    double knot = real_spline->segmentForT(i);
-    arclengths[i] = real_spline->arcLength(0.0, knot);
+    arclengths[i] = real_spline->arcLength(0.0, knots[i]);
   }
 }
 
 double SL_arclengthToKnot(const SL_pSpline spline, double arclength)
 {
-  auto real_spline = static_cast<CubicHermiteSpline<Vector3b, double> *>(spline);
+  auto real_spline = static_cast<NaturalSpline<Vector3b, double> *>(spline);
 
   return ArcLength::solveLength(*real_spline, 0.0, arclength);
 }
