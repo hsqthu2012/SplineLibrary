@@ -30,6 +30,8 @@ void SL_getAccumulateArclengths(const SL_pSpline spline, int num_pts, double *kn
 
 double SL_arclengthToKnot(const SL_pSpline spline, double arclength);
 
+double SL_deltaArclengthToKnot(const SL_pSpline spline, double knot_start, double delta_arclength);
+
 #ifdef __cplusplus
 }
 #endif

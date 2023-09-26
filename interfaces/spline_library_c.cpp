@@ -94,6 +94,13 @@ double SL_arclengthToKnot(const SL_pSpline spline, double arclength)
   return ArcLength::solveLength(*real_spline, 0.0, arclength);
 }
 
+double SL_deltaArclengthToKnot(const SL_pSpline spline, double knot_start, double delta_arclength)
+{
+  auto real_spline = static_cast<NaturalSpline<Vector3b, double> *>(spline);
+
+  return ArcLength::solveLength(*real_spline, knot_start, delta_arclength);
+}
+
 #ifdef __cplusplus
 }
 #endif
