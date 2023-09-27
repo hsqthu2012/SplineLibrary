@@ -20,7 +20,7 @@ SL_pSpline SL_createSpline(int num_pts, const SL_Vector3 *pts)
 
   NaturalSpline<Vector3b, double> *spline = nullptr;
   try {
-    spline = new NaturalSpline<Vector3b, double>(splinePoints);
+    spline = new NaturalSpline<Vector3b, double>(splinePoints, true, 0.5);
   } catch (std::bad_alloc& ba) {
     throw std::runtime_error("Failed to allocate memory for spline");
   }
