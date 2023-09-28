@@ -18,6 +18,7 @@ public:
         //these are precomputed :( It would be cool to compute these at compile time, but apparently
         //it's not easy to compute the points/weights just given the number of points.
         //it involves computing every root of a polynomial. which can obviously be done, but not in a reasonable amount of code
+        // ref to https://pomax.github.io/bezierinfo/legendre-gauss.html if more NUM_POINTS are needed
         std::array<floating_t, NUM_POINTS> quadraturePoints = {
             floating_t( 0.0000000000000000),
             floating_t(-0.2304583159551348),
