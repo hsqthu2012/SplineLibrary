@@ -8,5 +8,5 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 include_directories(spline_library)
 
-add_library(splinelibrary SHARED interfaces/spline_library_c.cpp)
+add_library(splinelibrary interfaces/spline_library_c.cpp)
 target_include_directories(splinelibrary PUBLIC spline_library interfaces)
