@@ -4,10 +4,6 @@
 #include "splines/natural_spline.h"
 #include "utils/arclength.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef Vector<3, double> Vector3b;
 
 SL_pSpline SL_createSpline(int num_pts, const SL_Vector3 *pts)
@@ -19,13 +15,16 @@ SL_pSpline SL_createSpline(int num_pts, const SL_Vector3 *pts)
   }
 
   NaturalSpline<Vector3b, double> *spline = nullptr;
-  try {
+  try
+  {
     spline = new NaturalSpline<Vector3b, double>(splinePoints, true, 0.5);
-  } catch (std::bad_alloc& ba) {
+  }
+  catch (std::bad_alloc &ba)
+  {
     throw std::runtime_error("Failed to allocate memory for spline");
   }
 
-  return (SL_pSpline) spline;
+  return (SL_pSpline)spline;
 }
 
 void SL_destroySpline(SL_pSpline spline)
@@ -100,7 +99,3 @@ double SL_deltaArclengthToKnot(const SL_pSpline spline, double knot_start, doubl
 
   return ArcLength::solveLength(*real_spline, knot_start, delta_arclength);
 }
-
-#ifdef __cplusplus
-}
-#endif
