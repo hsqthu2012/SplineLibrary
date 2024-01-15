@@ -18,7 +18,7 @@
 #include "fpclassify.hpp"
 
 #ifndef BOOST_NO_CXX17_IF_CONSTEXPR
-#include <boost/math/ccmath/ldexp.hpp>
+#include "ldexp.hpp"
 #if !defined(BOOST_MATH_NO_CONSTEXPR_DETECTION)
 #define BOOST_MATH_HAS_CONSTEXPR_LDEXP
 #endif

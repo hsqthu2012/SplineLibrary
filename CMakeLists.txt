@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(splinelibrary LANGUAGES CXX C)
 
-# use C++11 standard
-set(CMAKE_CXX_STANDARD 11)
+# use C++14 standard
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -11,3 +11,4 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_library(splinelibrary interfaces/spline_library_c.cpp)
 target_include_directories(splinelibrary PUBLIC spline_library interfaces)
+target_compile_definitions(splinelibrary PRIVATE -DBOOST_MATH_STANDALONE)
